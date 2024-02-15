@@ -1,0 +1,1 @@
+drop table if exists loyalty_community_policies

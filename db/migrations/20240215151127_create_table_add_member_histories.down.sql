@@ -1,0 +1,1 @@
+drop table if exists add_member_histories
