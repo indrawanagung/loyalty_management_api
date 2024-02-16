@@ -1,1 +1,116 @@
 2024/02/16 09:24:56.348293 main.go:20: [Info] server running on port 3000
+2024/02/16 15:38:37.966402 main.go:36: [Info] server running on port 3000
+2024/02/16 15:40:38.295749 main.go:36: [Info] server running on port 3000
+2024/02/16 15:41:09.011226 main.go:36: [Info] server running on port 3000
+2024/02/16 15:41:40.351070 main.go:36: [Info] server running on port 3000
+2024/02/16 15:42:11.202880 main.go:36: [Info] server running on port 3000
+2024/02/16 15:42:29.284743 main.go:36: [Info] server running on port 3000
+2024/02/16 15:43:41.019629 main.go:36: [Info] server running on port 3000
+2024/02/16 15:45:54.044955 membership_service_impl.go:53: [Error] Key: 'MemberCreateOrUpdateRequest.Email' Error:Field validation for 'Email' failed on the 'email' tag
+Key: 'MemberCreateOrUpdateRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag
+Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDate' failed on the 'datetime' tag
+2024/02/16 15:46:09.515381 membership_service_impl.go:53: [Error] Key: 'MemberCreateOrUpdateRequest.Password' Error:Field validation for 'Password' failed on the 'min' tag
+Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDate' failed on the 'datetime' tag
+2024/02/16 15:46:16.061285 membership_service_impl.go:53: [Error] Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDate' failed on the 'datetime' tag
+2024/02/16 15:47:48.878313 membership_service_impl.go:53: [Error] Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDate' failed on the 'datetime' tag
+2024/02/16 15:48:02.465140 membership_service_impl.go:53: [Error] Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDate' failed on the 'datetime' tag
+2024/02/16 15:49:49.304869 main.go:36: [Info] server running on port 3000
+2024/02/16 15:50:41.264573 main.go:36: [Info] server running on port 3000
+2024/02/16 15:50:45.325093 membership_service_impl.go:53: [Error] Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDate' failed on the 'datetime' tag
+2024/02/16 15:51:25.426663 membership_repository_impl.go:47: [Error] ERROR: insert or update on table "memberships" violates foreign key constraint "memberships_status_fk" (SQLSTATE 23503)
+2024/02/16 15:51:31.952184 membership_repository_impl.go:47: [Error] ERROR: insert or update on table "memberships" violates foreign key constraint "memberships_status_fk" (SQLSTATE 23503)
+2024/02/16 15:54:10.429468 main.go:36: [Info] server running on port 3000
+2024/02/16 15:54:15.110405 membership_repository_impl.go:47: [Error] ERROR: insert or update on table "memberships" violates foreign key constraint "memberships_status_fk" (SQLSTATE 23503)
+2024/02/16 15:57:24.621703 main.go:36: [Info] server running on port 3000
+2024/02/16 16:21:02.028010 main.go:36: [Info] server running on port 3000
+2024/02/16 16:31:39.865160 main.go:36: [Info] server running on port 3000
+2024/02/16 16:35:07.256858 main.go:36: [Info] server running on port 3000
+2024/02/16 16:36:15.852478 main.go:36: [Info] server running on port 3000
+2024/02/16 16:37:16.692514 main.go:36: [Info] server running on port 3000
+2024/02/16 16:39:31.261400 main.go:36: [Info] server running on port 3000
+2024/02/16 16:40:13.518495 main.go:36: [Info] server running on port 3000
+2024/02/16 17:21:01.459972 main.go:40: [Info] server running on port 3000
+2024/02/16 17:24:11.228960 main.go:40: [Info] server running on port 3000
+2024/02/16 17:26:22.315749 main.go:40: [Info] server running on port 3000
+2024/02/16 19:01:31.281522 main.go:40: [Info] server running on port 3000
+2024/02/16 19:03:04.476095 main.go:40: [Info] server running on port 3000
+2024/02/16 20:02:01.743784 main.go:43: [Info] server running on port 3000
+2024/02/16 20:06:21.411963 main.go:43: [Info] server running on port 3000
+2024/02/16 20:07:29.942462 main.go:43: [Info] server running on port 3000
+2024/02/16 21:57:16.601009 main.go:43: [Info] server running on port 3000
+2024/02/16 21:57:28.070337 tier_management_repository_impl.go:33: [Error] ERROR: syntax error at or near "and" (SQLSTATE 42601)
+2024/02/16 21:58:30.785380 main.go:43: [Info] server running on port 3000
+2024/02/16 21:58:35.062642 tier_management_repository_impl.go:33: [Error] ERROR: syntax error at or near ")" (SQLSTATE 42601)
+2024/02/16 21:58:36.212103 tier_management_repository_impl.go:33: [Error] ERROR: syntax error at or near ")" (SQLSTATE 42601)
+2024/02/16 21:59:47.307521 main.go:43: [Info] server running on port 3000
+2024/02/16 21:59:53.439449 tier_management_repository_impl.go:33: [Error] ERROR: column "min" does not exist (SQLSTATE 42703)
+2024/02/16 22:00:12.511200 main.go:43: [Info] server running on port 3000
+2024/02/16 22:00:17.792242 transaction_repository_impl.go:19: [Error] 
+2024/02/16 22:02:06.474741 main.go:43: [Info] server running on port 3000
+2024/02/16 22:02:14.540496 transaction_repository_impl.go:19: [Error] 
+2024/02/16 22:02:50.383022 transaction_repository_impl.go:19: [Error] 
+2024/02/16 22:06:10.777395 main.go:43: [Info] server running on port 3000
+2024/02/16 22:06:14.519651 tier_management_repository_impl.go:33: [Error] ERROR: column LoyaltyProgram.tier_management_id does not exist (SQLSTATE 42703)
+2024/02/16 22:09:28.037576 main.go:43: [Info] server running on port 3000
+2024/02/16 22:09:32.834761 transaction_repository_impl.go:19: [Error] 
+2024/02/16 22:14:33.899607 main.go:43: [Info] server running on port 3000
+2024/02/16 22:14:44.174296 tier_management_repository_impl.go:33: [Error] ERROR: column LoyaltyProgram.tier_management_id does not exist (SQLSTATE 42703)
+2024/02/16 22:26:19.454793 main.go:43: [Info] server running on port 3000
+2024/02/16 22:26:22.884255 tier_management_repository_impl.go:33: [Error] ERROR: column LoyaltyProgram.tier_management_id does not exist (SQLSTATE 42703)
+2024/02/16 22:30:17.592657 main.go:43: [Info] server running on port 3000
+2024/02/16 22:30:21.041874 tier_management_repository_impl.go:33: [Error] ERROR: invalid reference to FROM-clause entry for table "tier_managements" (SQLSTATE 42P01)
+2024/02/16 22:35:53.177881 main.go:43: [Info] server running on port 3000
+2024/02/16 22:35:56.514030 tier_management_repository_impl.go:33: [Error] unsupported relations: LoyaltyPrograms
+2024/02/16 22:40:58.559078 main.go:43: [Info] server running on port 3000
+2024/02/16 22:41:02.173491 tier_management_repository_impl.go:33: [Error] ERROR: missing FROM-clause entry for table "tier_managements" (SQLSTATE 42P01)
+2024/02/16 22:44:19.676770 main.go:43: [Info] server running on port 3000
+2024/02/16 22:44:23.337910 transaction_repository_impl.go:19: [Error] 
+2024/02/16 22:52:27.173375 main.go:43: [Info] server running on port 3000
+2024/02/16 22:52:30.777930 tier_management_repository_impl.go:34: [Error] ERROR: syntax error at or near "and" (SQLSTATE 42601)
+2024/02/16 22:53:01.777109 main.go:43: [Info] server running on port 3000
+2024/02/16 22:53:07.705629 tier_management_repository_impl.go:34: [Error] ERROR: syntax error at or near "and" (SQLSTATE 42601)
+2024/02/16 22:53:36.490674 main.go:43: [Info] server running on port 3000
+2024/02/16 22:53:40.866950 transaction_repository_impl.go:19: [Error] 
+2024/02/16 22:54:22.549723 main.go:43: [Info] server running on port 3000
+2024/02/16 22:54:27.504178 transaction_repository_impl.go:19: [Error] 
+2024/02/16 23:20:52.515390 main.go:43: [Info] server running on port 3000
+2024/02/16 23:20:56.370726 tier_management_repository_impl.go:43: [Error] ERROR: syntax error at or near "LoyaltyProgram" (SQLSTATE 42601)
+2024/02/16 23:21:29.293586 main.go:43: [Info] server running on port 3000
+2024/02/16 23:21:36.266733 tier_management_repository_impl.go:43: [Error] ERROR: syntax error at or near "LoyaltyProgram" (SQLSTATE 42601)
+2024/02/16 23:25:42.344164 main.go:43: [Info] server running on port 3000
+2024/02/16 23:25:46.219822 tier_management_repository_impl.go:52: [Error] ERROR: syntax error at or near "." (SQLSTATE 42601)
+2024/02/16 23:35:18.100099 main.go:43: [Info] server running on port 3000
+2024/02/16 23:35:22.011463 tier_management_repository_impl.go:43: [Error] ERROR: syntax error at or near "LoyaltyTransactionPolicies" (SQLSTATE 42601)
+2024/02/16 23:35:43.617789 main.go:43: [Info] server running on port 3000
+2024/02/16 23:35:47.632828 tier_management_repository_impl.go:43: [Error] ERROR: syntax error at or near "LoyaltyPrograms" (SQLSTATE 42601)
+2024/02/16 23:44:51.834650 main.go:43: [Info] server running on port 3000
+2024/02/16 23:46:55.941452 transaction_repository_impl.go:19: [Error] 
+2024/02/16 23:47:24.250055 main.go:43: [Info] server running on port 3000
+2024/02/16 23:47:29.088906 transaction_repository_impl.go:19: [Error] 
+2024/02/16 23:57:58.363153 main.go:44: [Info] server running on port 3000
+2024/02/16 23:58:06.803014 loyalty_repository_impl.go:23: [Error] ERROR: column TransactionPolicy.created_at does not exist (SQLSTATE 42703)
+2024/02/16 23:58:54.628194 main.go:44: [Info] server running on port 3000
+2024/02/16 23:58:58.123748 loyalty_repository_impl.go:23: [Error] ERROR: column reference "id" is ambiguous (SQLSTATE 42702)
+2024/02/17 00:00:28.027689 main.go:44: [Info] server running on port 3000
+2024/02/17 00:00:32.366502 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:01:39.046887 main.go:44: [Info] server running on port 3000
+2024/02/17 00:01:42.360097 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:01:43.827702 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:02:30.514828 main.go:44: [Info] server running on port 3000
+2024/02/17 00:02:38.009860 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:04:41.850747 main.go:44: [Info] server running on port 3000
+2024/02/17 00:04:45.029727 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:04:46.612933 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:04:47.284949 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:16:20.849745 main.go:44: [Info] server running on port 3000
+2024/02/17 00:16:24.536921 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:16:25.503589 transaction_repository_impl.go:19: [Error] 
+2024/02/17 00:23:14.885291 main.go:45: [Info] server running on port 3000
+2024/02/17 00:23:19.151065 earned_history_impl.go:19: [Error] invalid field found for struct github.com/indrawanagung/loyalty_management_api/model/domain.EarnedPointHistory's field ItemTransaction: define a valid foreign key for relations or implement the Valuer/Scanner interface
+2024/02/17 00:24:30.344118 main.go:45: [Info] server running on port 3000
+2024/02/17 00:28:42.869331 main.go:45: [Info] server running on port 3000
+2024/02/17 00:29:43.720883 main.go:45: [Info] server running on port 3000
+2024/02/17 00:30:22.674163 main.go:45: [Info] server running on port 3000
+2024/02/17 00:30:29.977165 membership_repository_impl.go:47: [Error] ERROR: insert or update on table "memberships" violates foreign key constraint "memberships_status_fk" (SQLSTATE 23503)
+2024/02/17 00:33:20.704998 main.go:45: [Info] server running on port 3000
+2024/02/17 00:33:56.088826 main.go:45: [Info] server running on port 3000

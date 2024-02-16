@@ -9,7 +9,8 @@ type ItemTransaction struct {
 	TransactionDate time.Time
 	TransactionID   string
 	Timestamp
-	Membership *Membership `gorm:"foreignKey:member_id;references:id"`
+	Membership *Membership              `gorm:"foreignKey:member_id;references:id"`
+	ItemDetail []ItemTransactionDetails `gorm:"foreignKey:item_transaction_id;references:id"`
 }
 
 func (i *ItemTransaction) TableName() string {

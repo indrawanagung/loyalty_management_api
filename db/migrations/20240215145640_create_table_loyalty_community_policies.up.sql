@@ -2,6 +2,7 @@ create table loyalty_community_policies (
     id serial not null ,
     loyalty_program_id int not null ,
     name varchar not null ,
+    fixed_point bigint not null ,
     created_at varchar not null ,
     updated_at varchar null,
     deleted_at timestamp null,

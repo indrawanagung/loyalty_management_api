@@ -13,7 +13,7 @@ type EarnedPointHistory struct {
 	BalancePoint           int64
 	Timestamp
 	Member          *Membership      `gorm:"foreignKey:member_id;references:id"`
-	ItemTransaction *ItemTransaction `gorm:"foreignKey:item_transaction_id;references:id"`
+	ItemTransaction *ItemTransaction `gorm:"foreignKey:reference_transaction_id;references:id"`
 	LoyaltyProgram  *LoyaltyProgram  `gorm:"foreignKey:loyalty_program_id;references:id"`
 }
 
