@@ -2,6 +2,7 @@ package util
 
 import (
 	"github.com/spf13/viper"
+	"log"
 	"time"
 )
 
@@ -20,19 +21,23 @@ type Config struct {
 	EmailSenderPassword  string        `mapstructure:"EMAIL_SENDER_PASSWORD"`
 }
 
-func LoadConfig(path string) (config Config, err error) {
+func LoadConfig(path string) Config {
 	//viper.AddConfigPath(".")
+	var config Config
 	viper.AddConfigPath(path)
 	viper.SetConfigName("app")
 	viper.SetConfigType("env")
 
 	viper.AutomaticEnv()
 
-	err = viper.ReadInConfig()
-	if err != nil {
-		return
+	errViper := viper.ReadInConfig()
+	if errViper != nil {
+		log.Fatal(errViper)
 	}
 
-	err = viper.Unmarshal(&config)
-	return
+	errViper = viper.Unmarshal(&config)
+	if errViper != nil {
+		log.Fatal(errViper)
+	}
+	return config
 }

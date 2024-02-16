@@ -2,6 +2,7 @@ create table memberships (
     id serial not null,
     name varchar not null,
     email varchar not null,
+    password varchar not null,
     phone varchar not null,
     birth_date date not null,
     address varchar,
