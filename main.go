@@ -24,10 +24,11 @@ func main() {
 	transactionRepository := repository.NewTransactionRepository()
 	loyaltyRepository := repository.NewLoyaltyRepository()
 	earnedRepository := repository.NewEarnedHistory()
+	redeemedRepository := repository.NewRedeemedHistory()
 
 	transactionService := service.NewTransactionService(database, validate, transactionRepository, tierRepository, membershipRepository, loyaltyRepository, earnedRepository)
 	tierService := service.NewTierManagementService(database, validate, tierRepository)
-	membershipService := service.NewMembershipService(database, membershipRepository, validate)
+	membershipService := service.NewMembershipService(database, validate, membershipRepository, tierRepository, loyaltyRepository, earnedRepository, redeemedRepository)
 
 	transactionController := controller.NewTransactionController(transactionService)
 	tierController := controller.NewTierManagementController(tierService)

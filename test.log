@@ -114,3 +114,39 @@ Key: 'MemberCreateOrUpdateRequest.BirthDate' Error:Field validation for 'BirthDa
 2024/02/17 00:30:29.977165 membership_repository_impl.go:47: [Error] ERROR: insert or update on table "memberships" violates foreign key constraint "memberships_status_fk" (SQLSTATE 23503)
 2024/02/17 00:33:20.704998 main.go:45: [Info] server running on port 3000
 2024/02/17 00:33:56.088826 main.go:45: [Info] server running on port 3000
+2024/02/17 06:38:18.428702 main.go:45: [Info] server running on port 3000
+2024/02/17 08:04:16.955969 main.go:45: [Info] server running on port 3000
+2024/02/17 08:06:06.036210 main.go:45: [Info] server running on port 3000
+2024/02/17 08:11:59.532753 main.go:45: [Info] server running on port 3000
+2024/02/17 08:23:16.601663 main.go:45: [Info] server running on port 3000
+2024/02/17 08:23:39.103883 membership_repository_impl.go:57: [Error] ERROR: insert or update on table "add_member_histories" violates foreign key constraint "addmemberhistories_membershipmember_fk" (SQLSTATE 23503)
+2024/02/17 08:25:00.443249 main.go:45: [Info] server running on port 3000
+2024/02/17 08:25:36.075176 membership_repository_impl.go:57: [Error] ERROR: insert or update on table "add_member_histories" violates foreign key constraint "addmemberhistories_membershipmember_fk" (SQLSTATE 23503)
+2024/02/17 08:26:52.138120 main.go:45: [Info] server running on port 3000
+2024/02/17 08:27:15.630107 membership_repository_impl.go:57: [Error] ERROR: insert or update on table "add_member_histories" violates foreign key constraint "addmemberhistories_membershipmember_fk" (SQLSTATE 23503)
+2024/02/17 08:28:12.240175 main.go:45: [Info] server running on port 3000
+2024/02/17 08:44:26.409862 main.go:45: [Info] server running on port 3000
+2024/02/17 08:44:47.683365 membership_repository_impl.go:48: [Error] ERROR: duplicate key value violates unique constraint "memberships_pk" (SQLSTATE 23505)
+2024/02/17 08:58:18.562509 main.go:45: [Info] server running on port 3000
+2024/02/17 08:59:16.668038 membership_repository_impl.go:79: [Error] <nil>
+2024/02/17 09:00:40.459654 main.go:45: [Info] server running on port 3000
+2024/02/17 09:02:26.988720 main.go:45: [Info] server running on port 3000
+2024/02/17 09:02:29.807701 membership_repository_impl.go:79: [Error] <nil>
+2024/02/17 09:03:29.162471 main.go:45: [Info] server running on port 3000
+2024/02/17 09:03:32.198842 membership_repository_impl.go:79: [Error] <nil>
+2024/02/17 09:03:33.416536 membership_repository_impl.go:79: [Error] <nil>
+2024/02/17 09:04:37.002662 main.go:45: [Info] server running on port 3000
+2024/02/17 09:05:20.200326 main.go:45: [Info] server running on port 3000
+2024/02/17 09:05:52.243911 main.go:45: [Info] server running on port 3000
+2024/02/17 09:06:18.525826 main.go:45: [Info] server running on port 3000
+2024/02/17 09:07:38.075007 main.go:45: [Info] server running on port 3000
+2024/02/17 09:09:15.899341 main.go:45: [Info] server running on port 3000
+2024/02/17 09:15:04.484740 main.go:45: [Info] server running on port 3000
+2024/02/17 09:43:46.631564 main.go:46: [Info] server running on port 3000
+2024/02/17 09:45:22.083316 main.go:46: [Info] server running on port 3000
+2024/02/17 09:45:25.762989 membership_service_impl.go:258: [Error] Key: 'RedeemedPointRequest.RedeemedPoint' Error:Field validation for 'RedeemedPoint' failed on the 'required' tag
+2024/02/17 09:45:55.342452 membership_service_impl.go:258: [Error] Key: 'RedeemedPointRequest.RedeemedPoint' Error:Field validation for 'RedeemedPoint' failed on the 'gte' tag
+2024/02/17 09:46:57.955617 main.go:46: [Info] server running on port 3000
+2024/02/17 09:59:35.926361 main.go:46: [Info] server running on port 3000
+2024/02/17 10:08:01.485909 main.go:46: [Info] server running on port 3000
+2024/02/17 10:21:30.959421 main.go:46: [Info] server running on port 3000

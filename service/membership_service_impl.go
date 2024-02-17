@@ -17,18 +17,32 @@ import (
 )
 
 type MembershipServiceImpl struct {
-	Database             *gorm.DB
-	MembershipRepository repository.MembershipRepositoryInterface
-	Validate             *validator.Validate
+	Database                  *gorm.DB
+	Validate                  *validator.Validate
+	MembershipRepository      repository.MembershipRepositoryInterface
+	TierManagementRepository  repository.TierManagementRepositoryInterface
+	LoyaltyRepository         repository.LoyaltyRepositoryInterface
+	EarnedHistoryRepository   repository.EarnedHistoryInterface
+	RedeemedHistoryRepository repository.RedeemedHistoryInterface
 }
 
-func NewMembershipService(Database *gorm.DB,
+func NewMembershipService(
+	Database *gorm.DB,
+	Validate *validator.Validate,
 	MembershipRepository repository.MembershipRepositoryInterface,
-	Validate *validator.Validate) MembershipServiceInterface {
+	TierManagementRepository repository.TierManagementRepositoryInterface,
+	LoyaltyRepository repository.LoyaltyRepositoryInterface,
+	EarnedHistoryRepository repository.EarnedHistoryInterface,
+	RedeemedHistoryRepository repository.RedeemedHistoryInterface,
+) MembershipServiceInterface {
 	return &MembershipServiceImpl{
-		Database:             Database,
-		MembershipRepository: MembershipRepository,
-		Validate:             Validate,
+		Database:                  Database,
+		Validate:                  Validate,
+		MembershipRepository:      MembershipRepository,
+		TierManagementRepository:  TierManagementRepository,
+		LoyaltyRepository:         LoyaltyRepository,
+		EarnedHistoryRepository:   EarnedHistoryRepository,
+		RedeemedHistoryRepository: RedeemedHistoryRepository,
 	}
 }
 
@@ -48,7 +62,10 @@ func (s MembershipServiceImpl) FindByEmail(email string) domain.Membership {
 	return member
 }
 
-func (s MembershipServiceImpl) Save(memberCreateRequest web.MemberCreateOrUpdateRequest) int {
+func (s MembershipServiceImpl) Save(memberCreateRequest web.MemberCreateOrUpdateRequest, memberID int) string {
+	tx := s.Database.Begin()
+	defer tx.Rollback()
+
 	err := s.Validate.Struct(memberCreateRequest)
 	errTrans := util.TranslateErroValidation(s.Validate, err)
 	if err != nil {
@@ -67,7 +84,7 @@ func (s MembershipServiceImpl) Save(memberCreateRequest web.MemberCreateOrUpdate
 		panic(err)
 	}
 
-	email, _ := s.MembershipRepository.FindByEmail(s.Database, memberCreateRequest.Email)
+	email, _ := s.MembershipRepository.FindByEmail(tx, memberCreateRequest.Email)
 	if email.Email != "" {
 		panic(exception.NewBadRequestError("email has been already exists"))
 	}
@@ -89,8 +106,51 @@ func (s MembershipServiceImpl) Save(memberCreateRequest web.MemberCreateOrUpdate
 			CreatedAt: util.GetUnixTimestamp(),
 		},
 	}
+	idCreateMember := s.MembershipRepository.Save(tx, member)
 
-	return s.MembershipRepository.Save(s.Database, member)
+	addMemberHistories := domain.AddMemberHistory{
+		MemberID:        memberID,
+		PersonID:        idCreateMember,
+		TransactionDate: time.Now(),
+		Timestamp: domain.Timestamp{
+			CreatedAt: util.GetUnixTimestamp(),
+		},
+	}
+
+	idCreateHistory := s.MembershipRepository.AddMemberHistory(tx, addMemberHistories)
+
+	memberCreator, err := s.MembershipRepository.FindByID(tx, memberID)
+	if err != nil {
+		panic(exception.NewNotFoundError("member is not found"))
+	}
+
+	loyalties, _ := s.TierManagementRepository.FindByPoint(tx, memberCreator.EarnedPoint)
+	if len(loyalties) > 0 {
+		var earnedPoint int64
+		loyaltyPolicy, errLoyalty := s.LoyaltyRepository.FindByID(tx, loyalties[0].ID)
+		if errLoyalty == nil {
+			earnedPoint += loyaltyPolicy.CommunityPolicy.FixedPoint
+		}
+		s.EarnedHistoryRepository.Save(tx, domain.EarnedPointHistory{
+			MemberID:               memberID,
+			TransactionDate:        time.Now(),
+			ReferenceTransactionID: idCreateHistory,
+			LoyaltyProgramID:       loyalties[0].ID,
+			ExistingPoint:          memberCreator.RemainedPoint,
+			EarnedPoint:            earnedPoint,
+			BalancePoint:           member.RemainedPoint + earnedPoint,
+			Timestamp: domain.Timestamp{
+				CreatedAt: util.GetUnixTimestamp(),
+			},
+		})
+		memberCreator.EarnedPoint += earnedPoint
+		memberCreator.RemainedPoint += earnedPoint
+		s.MembershipRepository.Save(tx, memberCreator)
+	}
+	if err == nil {
+		tx.Commit()
+	}
+	return idCreateHistory
 }
 
 func (s MembershipServiceImpl) SignIn(request web.SignInRequest) string {
@@ -130,4 +190,112 @@ func (s MembershipServiceImpl) SignIn(request web.SignInRequest) string {
 	}
 	return t
 
+}
+
+func (s MembershipServiceImpl) AddMemberActivity(request web.AddMemberActivityRequest, memberID int) string {
+	tx := s.Database.Begin()
+	defer tx.Rollback()
+
+	err := s.Validate.Struct(request)
+	errTrans := util.TranslateErroValidation(s.Validate, err)
+	if err != nil {
+		log.Error(err)
+		panic(exception.NewBadRequestError(errTrans.Error()))
+	}
+
+	transactionID := s.MembershipRepository.AddMemberActivityHistory(tx, domain.AddMemberActivityHistory{
+		MemberID:        memberID,
+		ActivityName:    request.ActivityName,
+		TransactionDate: time.Now(),
+		Timestamp: domain.Timestamp{
+			CreatedAt: util.GetUnixTimestamp(),
+		},
+	})
+
+	member, err := s.MembershipRepository.FindByID(tx, memberID)
+	if err != nil {
+		panic(exception.NewNotFoundError("member is not found"))
+	}
+
+	loyalties, _ := s.TierManagementRepository.FindByPoint(tx, member.EarnedPoint)
+	if len(loyalties) > 0 {
+		var earnedPoint int64
+		loyaltyPolicy, errLoyalty := s.LoyaltyRepository.FindByID(tx, loyalties[0].ID)
+		if errLoyalty == nil {
+			earnedPoint += loyaltyPolicy.CommunityPolicy.FixedPoint
+		}
+		s.EarnedHistoryRepository.Save(tx, domain.EarnedPointHistory{
+			MemberID:               memberID,
+			TransactionDate:        time.Now(),
+			ReferenceTransactionID: transactionID,
+			LoyaltyProgramID:       loyalties[0].ID,
+			ExistingPoint:          member.RemainedPoint,
+			EarnedPoint:            earnedPoint,
+			BalancePoint:           member.RemainedPoint + earnedPoint,
+			Timestamp: domain.Timestamp{
+				CreatedAt: util.GetUnixTimestamp(),
+			},
+		})
+		member.EarnedPoint += earnedPoint
+		member.RemainedPoint += earnedPoint
+		s.MembershipRepository.Save(tx, member)
+	}
+
+	if err == nil {
+		tx.Commit()
+	}
+
+	return transactionID
+}
+
+func (s MembershipServiceImpl) AddRedeemedPoint(request web.RedeemedPointRequest, memberID int) {
+	tx := s.Database.Begin()
+	defer tx.Rollback()
+
+	err := s.Validate.Struct(request)
+	errTrans := util.TranslateErroValidation(s.Validate, err)
+	if err != nil {
+		log.Error(err)
+		panic(exception.NewBadRequestError(errTrans.Error()))
+	}
+
+	member, err := s.MembershipRepository.FindByID(tx, memberID)
+	if err != nil {
+		log.Error(err)
+		panic(exception.NewNotFoundError("user is not found"))
+	}
+
+	if member.RemainedPoint < request.RedeemedPoint {
+		log.Error()
+		panic(exception.NewBadRequestError("tidak bisa diredeem kalau redeemed poin lebih besar dari earned poin"))
+	}
+
+	s.RedeemedHistoryRepository.AddRedeemed(tx, domain.RedeemedPointHistory{
+		MemberID:        memberID,
+		EarnedPoint:     member.RemainedPoint,
+		RedeemedPoint:   request.RedeemedPoint,
+		RemainingPoint:  member.RemainedPoint - request.RedeemedPoint,
+		TransactionDate: time.Now(),
+		Timestamp: domain.Timestamp{
+			CreatedAt: util.GetUnixTimestamp(),
+		},
+	})
+
+	member.RedeemedPoint += request.RedeemedPoint
+	member.RemainedPoint -= request.RedeemedPoint
+	s.MembershipRepository.Save(tx, member)
+
+	if err == nil {
+		tx.Commit()
+	}
+}
+
+func (s MembershipServiceImpl) FindAllRedeemedPointHistory(memberID int) []web.RedeemedPointHistoryResponse {
+	histories := s.RedeemedHistoryRepository.FindAllByMemberID(s.Database, memberID)
+	return web.ToRedeemdPointHistoryResponses(histories)
+}
+
+func (s MembershipServiceImpl) FindAllEarnedPointHistory(memberID int) []web.EarnedPointHistoryResponse {
+	histories := s.EarnedHistoryRepository.FindAllEarnedHistory(s.Database, memberID)
+	return web.ToEarnedPointHistoryResponses(histories)
 }

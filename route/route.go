@@ -37,6 +37,10 @@ func New(
 	api.Post("/sign_in", membershipController.SignIn)
 
 	api.Post("/memberships", authentication, membershipController.Save)
+	api.Post("/memberships/activity", authentication, membershipController.AddMemberActivity)
+	api.Post("/memberships/redeemed_point", authentication, membershipController.RedeemedPoint)
+	api.Post("/memberships/redeemed_point/histories", authentication, membershipController.FindAllRedeemedPoint)
+	api.Post("/memberships/earned_point/histories", authentication, membershipController.FindAllEarnedPoint)
 
 	api.Get("/tiers", authentication, tierManagementController.FindAll)
 	api.Get("/tiers/:tierID", authentication, tierManagementController.FindByID)

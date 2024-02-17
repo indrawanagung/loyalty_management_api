@@ -42,7 +42,10 @@ func NewTransactionService(
 	}
 }
 
-func (s TransactionServiceImpl) AddTransaction(request web.TransactionCreateRequest, memberID int) int {
+func (s TransactionServiceImpl) AddTransaction(request web.TransactionCreateRequest, memberID int) string {
+	tx := s.Database.Begin()
+	defer tx.Rollback()
+
 	var items []domain.ItemTransactionDetails
 	var totalAmount int64
 	for _, itemRequest := range request.Transaction {
@@ -57,7 +60,7 @@ func (s TransactionServiceImpl) AddTransaction(request web.TransactionCreateRequ
 		items = append(items, item)
 	}
 
-	member, err := s.MemberRepository.FindByID(s.Database, memberID)
+	member, err := s.MemberRepository.FindByID(tx, memberID)
 	if err != nil {
 		log.Error(err)
 		panic(exception.NewNotFoundError(err.Error()))
@@ -65,10 +68,10 @@ func (s TransactionServiceImpl) AddTransaction(request web.TransactionCreateRequ
 
 	var earnedPoint int64
 
-	loyalties, err := s.TierManagementRepository.FindByPoint(s.Database, member.EarnedPoint)
+	loyalties, err := s.TierManagementRepository.FindByPoint(tx, member.EarnedPoint)
 	if err == nil {
 
-		loyaltyTransactionPolicy, err := s.LoyaltyRepository.FindByID(s.Database, loyalties[0].ID)
+		loyaltyTransactionPolicy, err := s.LoyaltyRepository.FindByID(tx, loyalties[0].ID)
 		if err == nil {
 			if totalAmount >= loyaltyTransactionPolicy.TransactionPolicy.TransactionAmount {
 				earnedPoint += totalAmount * loyaltyTransactionPolicy.TransactionPolicy.Percentage / 100
@@ -80,14 +83,13 @@ func (s TransactionServiceImpl) AddTransaction(request web.TransactionCreateRequ
 		MemberID:        memberID,
 		TotalAmount:     totalAmount,
 		TransactionDate: time.Now(),
-		TransactionID:   util.GetUnixTimestamp(),
 		Timestamp: domain.Timestamp{
 			CreatedAt: util.GetUnixTimestamp(),
 		},
 		ItemDetail: items,
 	}
 
-	itemTransactionId := s.TransactionRepository.AddTransaction(s.Database, itemTransaction)
+	itemTransactionId := s.TransactionRepository.AddTransaction(tx, itemTransaction)
 
 	earnedPointHistory := domain.EarnedPointHistory{
 		MemberID:               memberID,
@@ -104,8 +106,12 @@ func (s TransactionServiceImpl) AddTransaction(request web.TransactionCreateRequ
 	member.EarnedPoint += earnedPoint
 	member.RemainedPoint += earnedPoint
 	member.UpdatedAt = util.GetUnixTimestamp()
-	s.MemberRepository.Save(s.Database, member)
-	s.EarnedHistoryRepository.Save(s.Database, earnedPointHistory)
+	s.MemberRepository.Save(tx, member)
+	s.EarnedHistoryRepository.Save(tx, earnedPointHistory)
+
+	if err == nil {
+		tx.Commit()
+	}
 	return itemTransactionId
 
 }

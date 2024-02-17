@@ -6,5 +6,5 @@ import (
 )
 
 type TransactionRepositoryInterface interface {
-	AddTransaction(db *gorm.DB, itemTransaction domain.ItemTransaction) int
+	AddTransaction(db *gorm.DB, itemTransaction domain.ItemTransaction) string
 }

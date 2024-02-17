@@ -20,3 +20,13 @@ func (e EarnedHistoryImpl) Save(db *gorm.DB, earned domain.EarnedPointHistory) {
 		panic(err)
 	}
 }
+
+func (e EarnedHistoryImpl) FindAllEarnedHistory(db *gorm.DB, memberID int) []domain.EarnedPointHistory {
+	var earnedHistories []domain.EarnedPointHistory
+	err := db.Where("member_id = ?", memberID).Find(&earnedHistories).Error
+	if err != nil {
+		log.Error(err)
+		panic(err)
+	}
+	return earnedHistories
+}

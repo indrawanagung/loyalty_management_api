@@ -17,7 +17,7 @@ func NewLoyaltyRepository() LoyaltyRepositoryInterface {
 
 func (l LoyaltyRepositoryImpl) FindByID(db *gorm.DB, loyaltyID int) (domain.LoyaltyProgram, error) {
 	var loyalty domain.LoyaltyProgram
-	err := db.Joins("TransactionPolicy").Take(&loyalty, "loyalty_programs.id = ?", loyaltyID).Error
+	err := db.Joins("TransactionPolicy").Joins("CommunityPolicy").Take(&loyalty, "loyalty_programs.id = ?", loyaltyID).Error
 	if err != nil {
 		if err.Error() != "record not found" {
 			log.Error(err)

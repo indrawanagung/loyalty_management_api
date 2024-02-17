@@ -31,7 +31,7 @@ func (c TransactionControllerImpl) AddTransaction(ctx *fiber.Ctx) error {
 	idResponse := c.TransactionService.AddTransaction(*request, id)
 	webResponse := web.WebResponse{
 		Header: util.HeaderResponseSuccessfully(),
-		Data:   map[string]int{"item_transaction_id": idResponse},
+		Data:   map[string]string{"item_transaction_id": idResponse},
 	}
 	return ctx.Status(201).JSON(webResponse)
 }

@@ -7,4 +7,5 @@ import (
 
 type EarnedHistoryInterface interface {
 	Save(db *gorm.DB, earned domain.EarnedPointHistory)
+	FindAllEarnedHistory(db *gorm.DB, memberID int) []domain.EarnedPointHistory
 }
