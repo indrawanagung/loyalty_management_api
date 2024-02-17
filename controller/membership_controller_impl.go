@@ -107,7 +107,12 @@ func (c MembershipControllerImpl) FindAllRedeemedPoint(ctx *fiber.Ctx) error {
 	memberID := claims["id"].(float64)
 	id := int(memberID)
 
-	historyResponses := c.MembershipService.FindAllRedeemedPointHistory(id)
+	request := new(web.FilterRedeemedPoint)
+	if err := ctx.BodyParser(request); err != nil {
+		panic(exception.NewBadRequestError(err.Error()))
+	}
+
+	historyResponses := c.MembershipService.FindAllRedeemedPointHistory(id, *request)
 	webResponse := web.WebResponse{
 		Header: util.HeaderResponseSuccessfully(),
 		Data:   historyResponses,
@@ -121,7 +126,12 @@ func (c MembershipControllerImpl) FindAllEarnedPoint(ctx *fiber.Ctx) error {
 	memberID := claims["id"].(float64)
 	id := int(memberID)
 
-	historyResponses := c.MembershipService.FindAllEarnedPointHistory(id)
+	request := new(web.FilterEarnedPoint)
+	if err := ctx.BodyParser(request); err != nil {
+		panic(exception.NewBadRequestError(err.Error()))
+	}
+
+	historyResponses := c.MembershipService.FindAllEarnedPointHistory(id, *request)
 	webResponse := web.WebResponse{
 		Header: util.HeaderResponseSuccessfully(),
 		Data:   historyResponses,

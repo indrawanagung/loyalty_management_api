@@ -12,6 +12,6 @@ type MembershipServiceInterface interface {
 	AddMemberActivity(request web.AddMemberActivityRequest, memberID int) string
 	SignIn(request web.SignInRequest) string
 	AddRedeemedPoint(request web.RedeemedPointRequest, memberID int)
-	FindAllRedeemedPointHistory(memberID int) []web.RedeemedPointHistoryResponse
-	FindAllEarnedPointHistory(memberID int) []web.EarnedPointHistoryResponse
+	FindAllRedeemedPointHistory(memberID int, filter web.FilterRedeemedPoint) []web.RedeemedPointHistoryResponse
+	FindAllEarnedPointHistory(memberID int, filter web.FilterEarnedPoint) []web.EarnedPointHistoryResponse
 }

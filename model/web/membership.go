@@ -13,6 +13,22 @@ type SignInRequest struct {
 	Password string `validate:"required,min=8" json:"password"`
 }
 
+type FilterEarnedPoint struct {
+	LoyaltyName string `json:"loyalty_name"`
+	DateRange   struct {
+		StartDate string `json:"start_date"`
+		EndDate   string `json:"end_date"`
+	} `json:"date_range"`
+	ReferenceTransactionID string `json:"reference_transaction_id"`
+}
+
+type FilterRedeemedPoint struct {
+	DateRange struct {
+		StartDate string `json:"start_date"`
+		EndDate   string `json:"end_date"`
+	} `json:"date_range"`
+}
+
 type RedeemedPointRequest struct {
 	RedeemedPoint int64 `validate:"required,gte=1000" json:"redeemed_point"`
 }
@@ -32,6 +48,7 @@ type AddMemberActivityRequest struct {
 type RedeemedPointHistoryResponse struct {
 	ID              int    `json:"id"`
 	MemberID        int    `json:"member_id"`
+	MemberName      string `json:"member_name"`
 	EarnedPoint     int64  `json:"earned_point"`
 	RedeemedPoint   int64  `json:"redeemed_point"`
 	RemainingPoint  int64  `json:"remaining_point"`
@@ -42,6 +59,7 @@ func ToRedeemedPointHistoryResponse(redeemed domain.RedeemedPointHistory) Redeem
 	return RedeemedPointHistoryResponse{
 		ID:              redeemed.ID,
 		MemberID:        redeemed.MemberID,
+		MemberName:      redeemed.Member.Name,
 		EarnedPoint:     redeemed.EarnedPoint,
 		RedeemedPoint:   redeemed.RedeemedPoint,
 		RemainingPoint:  redeemed.RemainingPoint,
@@ -62,9 +80,10 @@ func ToRedeemdPointHistoryResponses(redeemedPoints []domain.RedeemedPointHistory
 type EarnedPointHistoryResponse struct {
 	ID                     int       `json:"id"`
 	MemberID               int       `json:"member_id"`
+	MemberName             string    `json:"member_name"`
 	TransactionDate        time.Time `json:"transaction_date"`
 	ReferenceTransactionID string    `json:"reference_transaction_id"`
-	LoyaltyProgramID       int       `json:"loyalty_program_id"`
+	LoyaltyProgramName     string    `json:"loyalty_program_name"`
 	ExistingPoint          int64     `json:"existing_point"`
 	EarnedPoint            int64     `json:"earned_point"`
 	BalancePoint           int64     `json:"balance_point"`
@@ -74,9 +93,10 @@ func ToEarnedPointHistoryResponse(earned domain.EarnedPointHistory) EarnedPointH
 	return EarnedPointHistoryResponse{
 		ID:                     earned.ID,
 		MemberID:               earned.MemberID,
+		MemberName:             earned.Member.Name,
 		TransactionDate:        earned.TransactionDate,
 		ReferenceTransactionID: earned.ReferenceTransactionID,
-		LoyaltyProgramID:       earned.LoyaltyProgramID,
+		LoyaltyProgramName:     earned.LoyaltyProgram.Name,
 		ExistingPoint:          earned.ExistingPoint,
 		EarnedPoint:            earned.EarnedPoint,
 		BalancePoint:           earned.BalancePoint,

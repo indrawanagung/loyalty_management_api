@@ -290,12 +290,12 @@ func (s MembershipServiceImpl) AddRedeemedPoint(request web.RedeemedPointRequest
 	}
 }
 
-func (s MembershipServiceImpl) FindAllRedeemedPointHistory(memberID int) []web.RedeemedPointHistoryResponse {
-	histories := s.RedeemedHistoryRepository.FindAllByMemberID(s.Database, memberID)
+func (s MembershipServiceImpl) FindAllRedeemedPointHistory(memberID int, filter web.FilterRedeemedPoint) []web.RedeemedPointHistoryResponse {
+	histories := s.RedeemedHistoryRepository.FindAllByMemberID(s.Database, memberID, filter)
 	return web.ToRedeemdPointHistoryResponses(histories)
 }
 
-func (s MembershipServiceImpl) FindAllEarnedPointHistory(memberID int) []web.EarnedPointHistoryResponse {
-	histories := s.EarnedHistoryRepository.FindAllEarnedHistory(s.Database, memberID)
+func (s MembershipServiceImpl) FindAllEarnedPointHistory(memberID int, filter web.FilterEarnedPoint) []web.EarnedPointHistoryResponse {
+	histories := s.EarnedHistoryRepository.FindAllEarnedHistory(s.Database, memberID, filter)
 	return web.ToEarnedPointHistoryResponses(histories)
 }
